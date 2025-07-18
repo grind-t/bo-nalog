@@ -33,6 +33,7 @@
 		"@swc/core": "latest",
 		"@types/node": "latest",
 		"tsup": "latest",
-		"typescript": "latest"
+		"typescript": "latest",
+		"zod": "^4.0.5"
 	}
 }
