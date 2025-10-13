@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { BalanceSchema } from "./balance.ts";
-import { FinancialResultSchema } from "./financial-result.ts";
 import { CapitalChangeSchema } from "./capital-change.ts";
+import { FinancialResultSchema } from "./financial-result.ts";
 import { FundsMovementSchema } from "./funds-movement.ts";
 
 export const CorrectionSchema = z.object({
