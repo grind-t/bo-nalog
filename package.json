@@ -13,9 +13,12 @@
 		}
 	},
 	"scripts": {
-		"check": "tsc --noEmit",
-		"lint": "npx @biomejs/biome check --write ./lib",
-		"test": "node --experimental-transform-types --experimental-test-module-mocks --test",
+		"typecheck": "tsc --noEmit",
+		"lint": "npx @biomejs/biome check --write ./src",
+		"test:unit": "node --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.unit.test.ts\"",
+		"test:e2e": "node --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.e2e.test.ts\"",
+		"test": "node --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.test.ts\"",
+		"check": "npm run typecheck && npm run lint && npm run test",
 		"build": "tsup"
 	},
 	"repository": {
@@ -34,6 +37,6 @@
 		"@types/node": "latest",
 		"tsup": "latest",
 		"typescript": "latest",
-		"zod": "^4.0.5"
+		"valibot": "latest"
 	}
 }

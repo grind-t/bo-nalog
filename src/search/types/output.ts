@@ -1,189 +1,189 @@
-import { z } from "zod";
+import * as v from "valibot";
 
 /**
  * Схема для информации о бухгалтерской отчетности
  */
-export const BfoSchema = z.object({
+export const BfoSchema = v.object({
 	/** Период отчетности */
-	period: z.string(),
+	period: v.string(),
 
 	/** Фактическая дата подачи БФО */
-	actualBfoDate: z.string().nullable(),
+	actualBfoDate: v.nullable(v.string()),
 
 	/** Сумма дохода */
-	gainSum: z.number().nullable(),
+	gainSum: v.nullable(v.number()),
 
 	/** Коды налоговых деклараций */
-	knd: z.string(),
+	knd: v.string(),
 
 	/** Наличие аудиторского заключения */
-	hasAz: z.boolean(),
+	hasAz: v.boolean(),
 
 	/** Наличие консолидированной отчетности */
-	hasKs: z.boolean(),
+	hasKs: v.boolean(),
 
 	/** Номер актуальной корректировки */
-	actualCorrectionNumber: z.number(),
+	actualCorrectionNumber: v.number(),
 
 	/** Дата актуальной корректировки */
-	actualCorrectionDate: z.string(),
+	actualCorrectionDate: v.string(),
 
 	/** Является ли центральным банком */
-	isCb: z.boolean(),
+	isCb: v.boolean(),
 
 	/** Типы периодов БФО */
-	bfoPeriodTypes: z.array(z.number()),
+	bfoPeriodTypes: v.array(v.number()),
 });
 
-export type Bfo = z.infer<typeof BfoSchema>;
+export type Bfo = v.InferOutput<typeof BfoSchema>;
 
 /**
  * Схема для организации в результатах поиска
  */
-export const OrganizationSchema = z.object({
+export const OrganizationSchema = v.object({
 	/** Уникальный идентификатор */
-	id: z.number(),
+	id: v.number(),
 
 	/** ИНН организации */
-	inn: z.string(),
+	inn: v.string(),
 
 	/** Краткое название организации */
-	shortName: z.string(),
+	shortName: v.string(),
 
 	/** ОГРН организации */
-	ogrn: z.string(),
+	ogrn: v.string(),
 
 	/** Почтовый индекс */
-	index: z.string(),
+	index: v.string(),
 
 	/** Регион */
-	region: z.string(),
+	region: v.string(),
 
 	/** Район */
-	district: z.string().nullable(),
+	district: v.nullable(v.string()),
 
 	/** Город */
-	city: z.string().nullable(),
+	city: v.nullable(v.string()),
 
 	/** Населенный пункт */
-	settlement: z.string().nullable(),
+	settlement: v.nullable(v.string()),
 
 	/** Улица */
-	street: z.string(),
+	street: v.string(),
 
 	/** Дом */
-	house: z.string(),
+	house: v.string(),
 
 	/** Строение */
-	building: z.string().nullable(),
+	building: v.nullable(v.string()),
 
 	/** Офис */
-	office: z.string().nullable(),
+	office: v.nullable(v.string()),
 
 	/** Код ОКВЭД */
-	okved2: z.string(),
+	okved2: v.string(),
 
 	/** Код ОКОПФ */
-	okopf: z.number(),
+	okopf: v.number(),
 
 	/** Код ОКАТО */
-	okato: z.string().nullable(),
+	okato: v.nullable(v.string()),
 
 	/** Код ОКПО */
-	okpo: z.string().nullable(),
+	okpo: v.nullable(v.string()),
 
 	/** Код ОКФС */
-	okfs: z.string().nullable(),
+	okfs: v.nullable(v.string()),
 
 	/** Код статуса организации */
-	statusCode: z.enum(["ACTIVE", "INACTIVE"]),
+	statusCode: v.picklist(["ACTIVE", "INACTIVE", "LIQUIDATION_STAGE"]),
 
 	/** Дата статуса */
-	statusDate: z.string(),
+	statusDate: v.string(),
 
 	/** Информация о бухгалтерской отчетности */
 	bfo: BfoSchema,
 });
 
-export type Organization = z.infer<typeof OrganizationSchema>;
+export type Organization = v.InferOutput<typeof OrganizationSchema>;
 
 /**
  * Схема для информации о сортировке
  */
-export const SortSchema = z.object({
+export const SortSchema = v.object({
 	/** Отсортировано ли */
-	sorted: z.boolean(),
+	sorted: v.boolean(),
 
 	/** Не отсортировано ли */
-	unsorted: z.boolean(),
+	unsorted: v.boolean(),
 
 	/** Пусто ли */
-	empty: z.boolean(),
+	empty: v.boolean(),
 });
 
-export type Sort = z.infer<typeof SortSchema>;
+export type Sort = v.InferOutput<typeof SortSchema>;
 
 /**
  * Схема для информации о пагинации
  */
-export const PageableSchema = z.object({
+export const PageableSchema = v.object({
 	/** Номер страницы */
-	pageNumber: z.number(),
+	pageNumber: v.number(),
 
 	/** Размер страницы */
-	pageSize: z.number(),
+	pageSize: v.number(),
 
 	/** Информация о сортировке */
 	sort: SortSchema,
 
 	/** Смещение */
-	offset: z.number(),
+	offset: v.number(),
 
 	/** Разбито ли на страницы */
-	paged: z.boolean(),
+	paged: v.boolean(),
 
 	/** Не разбито ли на страницы */
-	unpaged: z.boolean(),
+	unpaged: v.boolean(),
 });
 
-export type Pageable = z.infer<typeof PageableSchema>;
+export type Pageable = v.InferOutput<typeof PageableSchema>;
 
 /**
  * Схема для ответа поиска организаций
  */
-export const SearchOutputSchema = z.object({
+export const SearchOutputSchema = v.object({
 	/** Список организаций */
-	content: z.array(OrganizationSchema),
+	content: v.array(OrganizationSchema),
 
 	/** Информация о пагинации */
 	pageable: PageableSchema,
 
 	/** Общее количество страниц */
-	totalPages: z.number(),
+	totalPages: v.number(),
 
 	/** Общее количество элементов */
-	totalElements: z.number(),
+	totalElements: v.number(),
 
 	/** Последняя ли это страница */
-	last: z.boolean(),
+	last: v.boolean(),
 
 	/** Первая ли это страница */
-	first: z.boolean(),
+	first: v.boolean(),
 
 	/** Количество элементов на текущей странице */
-	numberOfElements: z.number(),
+	numberOfElements: v.number(),
 
 	/** Размер страницы */
-	size: z.number(),
+	size: v.number(),
 
 	/** Номер текущей страницы */
-	number: z.number(),
+	number: v.number(),
 
 	/** Информация о сортировке */
 	sort: SortSchema,
 
 	/** Пустой ли результат */
-	empty: z.boolean(),
+	empty: v.boolean(),
 });
 
-export type SearchOutput = z.infer<typeof SearchOutputSchema>;
+export type SearchOutput = v.InferOutput<typeof SearchOutputSchema>;
