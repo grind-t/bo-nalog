@@ -1,17 +1,19 @@
 import * as v from "valibot";
 
+const PositiveIntegerSchema = v.pipe(v.number(), v.integer(), v.minValue(0));
+
 /**
  * Схема для информации о бухгалтерской отчетности
  */
-export const BfoSchema = v.object({
+export const BfoSchema = v.strictObject({
 	/** Период отчетности */
-	period: v.string(),
+	period: v.pipe(v.string(), v.regex(/^\d{4}$/)),
 
 	/** Фактическая дата подачи БФО */
-	actualBfoDate: v.nullable(v.string()),
+	actualBfoDate: v.pipe(v.string(), v.isoDate()),
 
 	/** Сумма дохода */
-	gainSum: v.nullable(v.number()),
+	gainSum: v.nullable(v.pipe(v.number(), v.minValue(0))),
 
 	/** Коды налоговых деклараций */
 	knd: v.string(),
@@ -23,16 +25,16 @@ export const BfoSchema = v.object({
 	hasKs: v.boolean(),
 
 	/** Номер актуальной корректировки */
-	actualCorrectionNumber: v.number(),
+	actualCorrectionNumber: PositiveIntegerSchema,
 
 	/** Дата актуальной корректировки */
-	actualCorrectionDate: v.string(),
+	actualCorrectionDate: v.pipe(v.string(), v.isoDate()),
 
 	/** Является ли центральным банком */
 	isCb: v.boolean(),
 
 	/** Типы периодов БФО */
-	bfoPeriodTypes: v.array(v.number()),
+	bfoPeriodTypes: v.array(v.pipe(v.number(), v.integer())),
 });
 
 export type Bfo = v.InferOutput<typeof BfoSchema>;
@@ -40,24 +42,24 @@ export type Bfo = v.InferOutput<typeof BfoSchema>;
 /**
  * Схема для организации в результатах поиска
  */
-export const OrganizationSchema = v.object({
+export const OrganizationSchema = v.strictObject({
 	/** Уникальный идентификатор */
-	id: v.number(),
+	id: PositiveIntegerSchema,
 
 	/** ИНН организации */
-	inn: v.string(),
+	inn: v.pipe(v.string(), v.regex(/^\d{10}$/)),
 
 	/** Краткое название организации */
-	shortName: v.string(),
+	shortName: v.pipe(v.string(), v.nonEmpty()),
 
 	/** ОГРН организации */
-	ogrn: v.string(),
+	ogrn: v.pipe(v.string(), v.regex(/^\d{13}$/)),
 
 	/** Почтовый индекс */
-	index: v.string(),
+	index: v.pipe(v.string(), v.regex(/^\d{6}$/)),
 
 	/** Регион */
-	region: v.string(),
+	region: v.pipe(v.string(), v.nonEmpty()),
 
 	/** Район */
 	district: v.nullable(v.string()),
@@ -69,10 +71,10 @@ export const OrganizationSchema = v.object({
 	settlement: v.nullable(v.string()),
 
 	/** Улица */
-	street: v.string(),
+	street: v.nullable(v.string()),
 
 	/** Дом */
-	house: v.string(),
+	house: v.nullable(v.string()),
 
 	/** Строение */
 	building: v.nullable(v.string()),
@@ -81,10 +83,10 @@ export const OrganizationSchema = v.object({
 	office: v.nullable(v.string()),
 
 	/** Код ОКВЭД */
-	okved2: v.string(),
+	okved2: v.pipe(v.string(), v.regex(/^\d{2}\.\d{1,2}(\.\d{1,2})?$/)),
 
 	/** Код ОКОПФ */
-	okopf: v.number(),
+	okopf: v.pipe(v.number(), v.integer(), v.minValue(10000), v.maxValue(99999)),
 
 	/** Код ОКАТО */
 	okato: v.nullable(v.string()),
@@ -96,10 +98,15 @@ export const OrganizationSchema = v.object({
 	okfs: v.nullable(v.string()),
 
 	/** Код статуса организации */
-	statusCode: v.picklist(["ACTIVE", "INACTIVE", "LIQUIDATION_STAGE"]),
+	statusCode: v.picklist([
+		"ACTIVE",
+		"INACTIVE",
+		"REORGANIZATION_STAGE",
+		"LIQUIDATION_STAGE",
+	]),
 
 	/** Дата статуса */
-	statusDate: v.string(),
+	statusDate: v.pipe(v.string(), v.isoDate()),
 
 	/** Информация о бухгалтерской отчетности */
 	bfo: BfoSchema,
@@ -110,7 +117,7 @@ export type Organization = v.InferOutput<typeof OrganizationSchema>;
 /**
  * Схема для информации о сортировке
  */
-export const SortSchema = v.object({
+export const SortSchema = v.strictObject({
 	/** Отсортировано ли */
 	sorted: v.boolean(),
 
@@ -126,18 +133,18 @@ export type Sort = v.InferOutput<typeof SortSchema>;
 /**
  * Схема для информации о пагинации
  */
-export const PageableSchema = v.object({
+export const PageableSchema = v.strictObject({
 	/** Номер страницы */
-	pageNumber: v.number(),
+	pageNumber: PositiveIntegerSchema,
 
 	/** Размер страницы */
-	pageSize: v.number(),
+	pageSize: PositiveIntegerSchema,
 
 	/** Информация о сортировке */
 	sort: SortSchema,
 
 	/** Смещение */
-	offset: v.number(),
+	offset: PositiveIntegerSchema,
 
 	/** Разбито ли на страницы */
 	paged: v.boolean(),
@@ -151,7 +158,7 @@ export type Pageable = v.InferOutput<typeof PageableSchema>;
 /**
  * Схема для ответа поиска организаций
  */
-export const SearchOutputSchema = v.object({
+export const SearchOutputSchema = v.strictObject({
 	/** Список организаций */
 	content: v.array(OrganizationSchema),
 
@@ -159,10 +166,10 @@ export const SearchOutputSchema = v.object({
 	pageable: PageableSchema,
 
 	/** Общее количество страниц */
-	totalPages: v.number(),
+	totalPages: PositiveIntegerSchema,
 
 	/** Общее количество элементов */
-	totalElements: v.number(),
+	totalElements: PositiveIntegerSchema,
 
 	/** Последняя ли это страница */
 	last: v.boolean(),
@@ -171,13 +178,13 @@ export const SearchOutputSchema = v.object({
 	first: v.boolean(),
 
 	/** Количество элементов на текущей странице */
-	numberOfElements: v.number(),
+	numberOfElements: PositiveIntegerSchema,
 
 	/** Размер страницы */
-	size: v.number(),
+	size: PositiveIntegerSchema,
 
 	/** Номер текущей страницы */
-	number: v.number(),
+	number: PositiveIntegerSchema,
 
 	/** Информация о сортировке */
 	sort: SortSchema,

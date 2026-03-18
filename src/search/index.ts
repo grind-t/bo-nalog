@@ -41,5 +41,13 @@ export async function searchOrganizations({
 		throw new Error(`HTTP error! status: ${response.status}`);
 	}
 
-	return await response.json();
+	const data: SearchOutput = await response.json();
+
+	for (const organization of data.content) {
+		// Из api приходят строки вида "<strong>1234567890</strong>"
+		organization.inn =
+			organization.inn.match(/\d{10}/)?.[0] ?? organization.inn;
+	}
+
+	return data;
 }
