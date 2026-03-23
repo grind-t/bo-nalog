@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-export const BalanceSchema = v.looseObject({
+export const BalanceSchema = v.strictObject({
 	id: v.number(),
 	okud: v.string(),
 	expl1100: v.nullish(v.string()),
@@ -85,6 +85,11 @@ export const BalanceSchema = v.looseObject({
 	current1300: v.nullish(v.number()),
 	previous1300: v.nullish(v.number()),
 	beforePrevious1300: v.nullish(v.number()),
+	expl13001: v.nullish(v.string()),
+	current13001: v.nullish(v.number()),
+	previous13001: v.nullish(v.number()),
+	beforePrevious13001: v.nullish(v.number()),
+
 	expl1310: v.nullish(v.string()),
 	current1310: v.nullish(v.number()),
 	previous1310: v.nullish(v.number()),
@@ -93,30 +98,56 @@ export const BalanceSchema = v.looseObject({
 	current13101: v.nullish(v.number()),
 	previous13101: v.nullish(v.number()),
 	beforePrevious13101: v.nullish(v.number()),
+
 	expl1320: v.nullish(v.string()),
 	current1320: v.nullish(v.number()),
 	previous1320: v.nullish(v.number()),
 	beforePrevious1320: v.nullish(v.number()),
+	expl13201: v.nullish(v.string()),
+	current13201: v.nullish(v.number()),
+	previous13201: v.nullish(v.number()),
+	beforePrevious13201: v.nullish(v.number()),
+
 	expl1330: v.nullish(v.string()),
 	current1330: v.nullish(v.number()),
 	previous1330: v.nullish(v.number()),
 	beforePrevious1330: v.nullish(v.number()),
+	expl13301: v.nullish(v.string()),
+	current13301: v.nullish(v.number()),
+	previous13301: v.nullish(v.number()),
+	beforePrevious13301: v.nullish(v.number()),
+
 	expl1340: v.nullish(v.string()),
 	current1340: v.nullish(v.number()),
 	previous1340: v.nullish(v.number()),
 	beforePrevious1340: v.nullish(v.number()),
+
 	expl1350: v.nullish(v.string()),
 	current1350: v.nullish(v.number()),
 	previous1350: v.nullish(v.number()),
 	beforePrevious1350: v.nullish(v.number()),
+	expl13501: v.nullish(v.string()),
+	current13501: v.nullish(v.number()),
+	previous13501: v.nullish(v.number()),
+	beforePrevious13501: v.nullish(v.number()),
+
 	expl1360: v.nullish(v.string()),
 	current1360: v.nullish(v.number()),
 	previous1360: v.nullish(v.number()),
 	beforePrevious1360: v.nullish(v.number()),
+	expl13601: v.nullish(v.string()),
+	current13601: v.nullish(v.number()),
+	previous13601: v.nullish(v.number()),
+	beforePrevious13601: v.nullish(v.number()),
+
 	expl1370: v.nullish(v.string()),
 	current1370: v.nullish(v.number()),
 	previous1370: v.nullish(v.number()),
 	beforePrevious1370: v.nullish(v.number()),
+	expl13701: v.nullish(v.string()),
+	current13701: v.nullish(v.number()),
+	previous13701: v.nullish(v.number()),
+	beforePrevious13701: v.nullish(v.number()),
 
 	expl1400: v.nullish(v.string()),
 	current1400: v.nullish(v.number()),

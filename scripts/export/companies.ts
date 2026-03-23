@@ -1,27 +1,29 @@
 import { join } from "node:path";
+import { exit } from "node:process";
 import pl from "nodejs-polars";
+import * as v from "valibot";
 import { fs, sleep } from "zx";
 import { searchOrganizations } from "../../src/search/index.ts";
-import * as v from "valibot"
 import { SearchOutputSchema } from "../../src/search/types/output.ts";
-import { exit } from "node:process";
 
-const EXPORTS_DIR = join(import.meta.dirname, "..", "..", "exports")
+const EXPORTS_DIR = join(import.meta.dirname, "..", "..", "exports");
 
 const inns: string[] = await fs.readJSON(join(EXPORTS_DIR, "inns.json"));
 
 const rows = [];
 
 for (const inn of inns) {
-  await sleep(200)
+	await sleep(200);
 
-  const result = await searchOrganizations({ inn, size: 1 });
-  const {success, output, issues } = v.safeParse(SearchOutputSchema, result)
+	const result = await searchOrganizations({ inn, size: 1 });
+	const { success, output, issues } = v.safeParse(SearchOutputSchema, result);
 
-  if (!success) {
-    console.error(`Error parsing result for INN ${inn}:\n\n${v.summarize(issues)}`)
-    exit(1)
-  }
+	if (!success) {
+		console.error(
+			`Error parsing result for INN ${inn}:\n\n${v.summarize(issues)}`,
+		);
+		exit(1);
+	}
 
 	const org = output.content[0];
 

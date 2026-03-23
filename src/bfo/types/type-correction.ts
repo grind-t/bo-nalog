@@ -1,7 +1,7 @@
 import * as v from "valibot";
 import { CorrectionSchema } from "./correction.ts";
 
-export const TypeCorrectionSchema = v.object({
+export const TypeCorrectionSchema = v.strictObject({
 	type: v.number(),
 	correction: CorrectionSchema,
 });

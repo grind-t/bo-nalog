@@ -1,8 +1,11 @@
 import * as v from "valibot";
 
-export const FinancialResultSchema = v.looseObject({
+// Новые коды - https://tinyurl.com/3entksyk
+// Старые коды - https://tinyurl.com/2mn8edbh
+export const FinancialResultSchema = v.strictObject({
 	id: v.number(),
 	okud: v.string(),
+
 	expl2110: v.nullish(v.string()),
 	current2110: v.nullish(v.number()),
 	previous2110: v.nullish(v.number()),
@@ -12,6 +15,7 @@ export const FinancialResultSchema = v.looseObject({
 	expl2100: v.nullish(v.string()),
 	current2100: v.nullish(v.number()),
 	previous2100: v.nullish(v.number()),
+
 	expl2210: v.nullish(v.string()),
 	current2210: v.nullish(v.number()),
 	previous2210: v.nullish(v.number()),
@@ -21,6 +25,7 @@ export const FinancialResultSchema = v.looseObject({
 	expl2200: v.nullish(v.string()),
 	current2200: v.nullish(v.number()),
 	previous2200: v.nullish(v.number()),
+
 	expl2310: v.nullish(v.string()),
 	current2310: v.nullish(v.number()),
 	previous2310: v.nullish(v.number()),
@@ -39,16 +44,43 @@ export const FinancialResultSchema = v.looseObject({
 	expl2300: v.nullish(v.string()),
 	current2300: v.nullish(v.number()),
 	previous2300: v.nullish(v.number()),
+
 	expl2410: v.nullish(v.string()),
 	current2410: v.nullish(v.number()),
 	previous2410: v.nullish(v.number()),
-	expl2400: v.nullish(v.string()),
-	current2400: v.nullish(v.number()),
-	previous2400: v.nullish(v.number()),
+	expl2411: v.nullish(v.string()),
+	current2411: v.nullish(v.number()),
+	previous2411: v.nullish(v.number()),
 	expl2412: v.nullish(v.string()),
 	current2412: v.nullish(v.number()),
 	previous2412: v.nullish(v.number()),
+	expl2420: v.nullish(v.string()),
+	current2420: v.nullish(v.number()),
+	previous2420: v.nullish(v.number()),
+	expl2460: v.nullish(v.string()),
+	current2460: v.nullish(v.number()),
+	previous2460: v.nullish(v.number()),
+	expl2400: v.nullish(v.string()),
+	current2400: v.nullish(v.number()),
+	previous2400: v.nullish(v.number()),
+
+	expl2510: v.nullish(v.string()),
+	current2510: v.nullish(v.number()),
+	previous2510: v.nullish(v.number()),
+	expl2520: v.nullish(v.string()),
+	current2520: v.nullish(v.number()),
+	previous2520: v.nullish(v.number()),
+	expl2530: v.nullish(v.string()),
+	current2530: v.nullish(v.number()),
+	previous2530: v.nullish(v.number()),
 	expl2500: v.nullish(v.string()),
 	current2500: v.nullish(v.number()),
 	previous2500: v.nullish(v.number()),
+
+	expl2900: v.nullish(v.string()),
+	current2900: v.nullish(v.number()),
+	previous2900: v.nullish(v.number()),
+	expl2910: v.nullish(v.string()),
+	current2910: v.nullish(v.number()),
+	previous2910: v.nullish(v.number()),
 });

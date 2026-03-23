@@ -15,14 +15,15 @@
 	"scripts": {
 	  "dev": "node --experimental-transform-types --env-file=.env --watch ./playground.ts",
 		"typecheck": "tsc --noEmit",
-		"lint": "npx @biomejs/biome check --write ./src",
+		"lint": "npx @biomejs/biome check --write",
 		"test:unit": "node --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.unit.test.ts\"",
 		"test:e2e": "node --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.e2e.test.ts\"",
 		"test": "node --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.test.ts\"",
 		"check": "npm run typecheck && npm run lint && npm run test",
 		"build": "tsup",
 		"export:inns": "node --experimental-transform-types --env-file=.env ./scripts/export/inns.ts",
-		"export:companies": "node --experimental-transform-types --env-file=.env ./scripts/export/companies.ts"
+		"export:companies": "node --experimental-transform-types --env-file=.env ./scripts/export/companies.ts",
+		"export:bfo": "node --experimental-transform-types --env-file=.env ./scripts/export/bfo.ts"
 	},
 	"repository": {
 		"type": "git",

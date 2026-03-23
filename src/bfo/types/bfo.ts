@@ -2,7 +2,7 @@ import * as v from "valibot";
 import { OrganizationInfoSchema } from "./organization.ts";
 import { TypeCorrectionSchema } from "./type-correction.ts";
 
-export const BFOSchema = v.object({
+export const BFOSchema = v.strictObject({
 	id: v.number(),
 	period: v.string(),
 	publication: v.nullish(v.number()),

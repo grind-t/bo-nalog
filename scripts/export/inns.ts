@@ -5,7 +5,7 @@ import { toRecord } from "@grind-t/toolkit/array";
 import { TinkoffInvestApi } from "tinkoff-invest-api";
 import { fs } from "zx";
 
-const EXPORTS_DIR = join(import.meta.dirname, "..", "..", "exports")
+const EXPORTS_DIR = join(import.meta.dirname, "..", "..", "exports");
 
 const tInvestApi = new TinkoffInvestApi({
 	token: env.T_INVEST_READONLY_TOKEN as string,
@@ -24,8 +24,6 @@ const emitentInns = bonds.reduce((acc, v) => {
 	return acc;
 }, new Set<string>());
 
-fs.outputJSON(
-	join(EXPORTS_DIR, "inns.json"),
-	Array.from(emitentInns),
-	{ spaces: "\t" },
-);
+fs.outputJSON(join(EXPORTS_DIR, "inns.json"), Array.from(emitentInns), {
+	spaces: "\t",
+});
