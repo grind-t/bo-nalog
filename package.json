@@ -13,7 +13,7 @@
 		}
 	},
 	"scripts": {
-	  "dev": "node --experimental-transform-types --env-file=.env --watch ./playground.ts",
+		"dev": "node --experimental-transform-types --env-file=.env --watch ./playground.ts",
 		"typecheck": "tsc --noEmit",
 		"lint": "npx @biomejs/biome check --write",
 		"test:unit": "node --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.unit.test.ts\"",
@@ -37,7 +37,6 @@
 	"devDependencies": {
 		"@biomejs/biome": "latest",
 		"@grind-t/moex": "latest",
-		"@grind-t/toolkit": "^2.1.0",
 		"@microsoft/api-extractor": "latest",
 		"@swc/core": "latest",
 		"@types/fs-extra": "latest",
@@ -48,5 +47,8 @@
 		"typescript": "latest",
 		"valibot": "latest",
 		"zx": "latest"
+	},
+	"dependencies": {
+		"@grind-t/toolkit": "^2.3.0"
 	}
 }
