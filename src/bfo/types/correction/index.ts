@@ -81,4 +81,10 @@ export const CorrectionSchema = v.strictObject({
 	periodType: v.nullish(v.number()),
 });
 
+export const TypeCorrectionSchema = v.strictObject({
+	type: v.number(),
+	correction: CorrectionSchema,
+});
+
 export type Correction = v.InferOutput<typeof CorrectionSchema>;
+export type TypeCorrection = v.InferOutput<typeof TypeCorrectionSchema>;

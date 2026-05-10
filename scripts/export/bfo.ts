@@ -1,7 +1,7 @@
 import { join } from "node:path";
 import pl from "nodejs-polars";
-import { getOrganizationBFO } from "../../src/bfo/index.ts";
 import { fs, sleep } from "zx";
+import { getOrganizationBFO } from "../../src/bfo/index.ts";
 
 const EXPORTS_DIR = join(import.meta.dirname, "..", "..", "exports");
 
@@ -12,7 +12,7 @@ const companyIds = (
 		.toArray() as number[]
 ).map((v) => Math.trunc(v));
 
-const bfo: Record<string, any> = {};
+const bfo: Record<string, unknown> = {};
 
 for (const id of companyIds) {
 	await sleep(200);
