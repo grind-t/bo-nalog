@@ -7,51 +7,49 @@ import { TargetedFundsUsingSchema } from "./targeted-funds-using.ts";
 
 export const CorrectionSchema = v.strictObject({
 	id: v.number(),
-	bfoOrganizationInfo: v.nullish(
-		v.strictObject({
-			id: v.nullish(v.number()),
-			fullName: v.nullish(v.string()),
-			inn: v.nullish(v.string()),
-			kpp: v.nullish(v.string()),
-			address: v.nullish(v.string()),
-			okved2: v.nullish(
-				v.strictObject({
-					id: v.nullish(v.string()),
-					name: v.nullish(v.string()),
-				}),
-			),
-			okopf_id: v.nullish(v.number()),
-			okopf: v.nullish(
-				v.strictObject({
-					id: v.nullish(v.number()),
-					name: v.nullish(v.string()),
-				}),
-			),
-			okfs_id: v.nullish(v.number()),
-			okfs: v.nullish(
-				v.strictObject({
-					id: v.nullish(v.number()),
-					name: v.nullish(v.string()),
-				}),
-			),
-			bfoId: v.nullish(v.number()),
-			okpo: v.nullish(v.string()),
-		}),
-	),
-	balance: v.nullish(BalanceSchema),
-	financialResult: v.nullish(FinancialResultSchema),
+	bfoOrganizationInfo: v.strictObject({
+		id: v.number(),
+		fullName: v.string(),
+		inn: v.string(),
+		kpp: v.string(),
+		address: v.string(),
+		okved2: v.nullish(
+			v.strictObject({
+				id: v.string(),
+				name: v.string(),
+			}),
+		),
+		okopf_id: v.number(),
+		okopf: v.nullish(
+			v.strictObject({
+				id: v.number(),
+				name: v.string(),
+			}),
+		),
+		okfs_id: v.number(),
+		okfs: v.nullish(
+			v.strictObject({
+				id: v.number(),
+				name: v.string(),
+			}),
+		),
+		bfoId: v.number(),
+		okpo: v.nullish(v.string()),
+	}),
+	balance: BalanceSchema,
+	financialResult: FinancialResultSchema,
 	capitalChange: v.nullish(CapitalChangeSchema),
 	fundsMovement: v.nullish(FundsMovementSchema),
 	targetedFundsUsing: v.nullish(TargetedFundsUsingSchema),
-	correctionVersion: v.nullish(v.number()),
-	requiredAudit: v.nullish(v.number()),
-	datePresent: v.nullish(v.string()),
-	prBn: v.nullish(v.number()),
-	knd: v.nullish(v.string()),
+	correctionVersion: v.number(),
+	requiredAudit: v.number(),
+	datePresent: v.string(),
+	prBn: v.number(),
+	knd: v.string(),
 	clarification: v.nullish(
 		v.strictObject({
 			id: v.number(),
-			fileMetadata: v.object({
+			fileMetadata: v.strictObject({
 				id: v.number(),
 				contentType: v.string(),
 				size: v.number(),
@@ -65,20 +63,18 @@ export const CorrectionSchema = v.strictObject({
 			id: v.number(),
 			inn: v.nullish(v.string()),
 			ogrn: v.nullish(v.string()),
-			name: v.nullish(v.string()),
-			isOrganization: v.nullish(v.boolean()),
-			fileMetadata: v.nullish(
-				v.strictObject({
-					id: v.number(),
-					contentType: v.string(),
-					size: v.number(),
-					originalName: v.string(),
-					fileToken: v.string(),
-				}),
-			),
+			name: v.string(),
+			isOrganization: v.boolean(),
+			fileMetadata: v.strictObject({
+				id: v.number(),
+				contentType: v.string(),
+				size: v.number(),
+				originalName: v.string(),
+				fileToken: v.string(),
+			}),
 		}),
 	),
-	periodType: v.nullish(v.number()),
+	periodType: v.number(),
 });
 
 export const TypeCorrectionSchema = v.strictObject({
