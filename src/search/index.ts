@@ -1,5 +1,5 @@
-import type { SearchInput } from "./types/input.ts";
-import type { SearchOutput } from "./types/output.ts";
+import type { SearchInput } from "./schemas/input.ts";
+import type { SearchOutput } from "./schemas/output.ts";
 
 /**
  * Базовый URL для API поиска организаций

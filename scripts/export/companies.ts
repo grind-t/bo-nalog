@@ -4,7 +4,7 @@ import pl from "nodejs-polars";
 import * as v from "valibot";
 import { fs, sleep } from "zx";
 import { searchOrganizations } from "../../src/search/index.ts";
-import { SearchOutputSchema } from "../../src/search/types/output.ts";
+import { SearchOutputSchema } from "../../src/search/schemas/output.ts";
 
 const EXPORTS_DIR = join(import.meta.dirname, "..", "..", "exports");
 

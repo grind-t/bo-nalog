@@ -1,3 +1,3 @@
 export { searchOrganizations } from "./search/index.ts";
-export type { SearchInput } from "./search/types/input.ts";
-export type { SearchOutput } from "./search/types/output.ts";
+export type { SearchInput } from "./search/schemas/input.ts";
+export type { SearchOutput } from "./search/schemas/output.ts";
