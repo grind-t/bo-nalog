@@ -1,4 +1,4 @@
-import type { BFOResponse } from "./types/index.ts";
+import type { BFOResponse } from "./schemas/index.ts";
 
 const BASE_URL = "https://bo.nalog.gov.ru";
 

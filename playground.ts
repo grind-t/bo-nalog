@@ -1,7 +1,7 @@
 import pl from "nodejs-polars"
 import {fs} from 'zx'
 import * as v from 'valibot'
-import { BFOSchema } from "./src/bfo/types/index.ts"
+import { BFOSchema } from "./src/bfo/schemas/index.ts"
 
 const data = fs.readJSONSync("./exports/bfo.json")
 const bfos: Record<any, any>[] = []
