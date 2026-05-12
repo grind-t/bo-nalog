@@ -19,7 +19,7 @@ export const BFOSchema = v.strictObject({
 	isCb: v.boolean(),
 	mspCategory: v.nullish(v.string()),
 	organizationInfo: OrganizationInfoSchema,
-	typeCorrections: v.array(TypeCorrectionSchema),
+	typeCorrections: v.pipe(v.array(TypeCorrectionSchema), v.length(1)),
 	published: v.boolean(),
 });
 
