@@ -4,7 +4,7 @@ import { OrganizationInfoSchema } from "./organization.ts";
 
 export const BFOSchema = v.strictObject({
 	id: v.number(),
-	period: v.string(),
+	period: v.pipe(v.string(), v.digits()),
 	publication: v.number(),
 	actualBfoDate: v.nullish(v.string()),
 	gainSum: v.nullish(v.number()),
@@ -23,7 +23,13 @@ export const BFOSchema = v.strictObject({
 	published: v.boolean(),
 });
 
-export const BFOResponseSchema = v.array(BFOSchema);
+export const BFOResponseSchema = v.pipe(
+	v.array(BFOSchema),
+	v.check(
+		(input) => new Set(input.map((v) => v.period)).size === input.length,
+		"Duplicate periods",
+	),
+);
 
 export type BFO = v.InferOutput<typeof BFOSchema>;
 export type BFOResponse = v.InferOutput<typeof BFOResponseSchema>;
