@@ -21,8 +21,8 @@
 		"test": "node --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.test.ts\"",
 		"check": "npm run typecheck && npm run lint && npm run test",
 		"build": "tsup",
-		"export:companies": "node --experimental-transform-types --env-file=.env ./scripts/export/companies.ts",
-		"export:bfo": "node --experimental-transform-types --env-file=.env ./scripts/export/bfo.ts"
+		"export:companies": "node --experimental-transform-types --env-file-if-exists=.env ./scripts/export/companies.ts",
+		"export:bfo": "node --experimental-transform-types ./scripts/export/bfo.ts"
 	},
 	"repository": {
 		"type": "git",
