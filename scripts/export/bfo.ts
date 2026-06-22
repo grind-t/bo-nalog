@@ -1,22 +1,44 @@
+import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import pl from "nodejs-polars";
-import { fs, sleep } from "zx";
+import { setTimeout } from "node:timers/promises";
+import { brotliCompressSync, brotliDecompressSync } from "node:zlib";
+import * as v from "valibot";
 import { getOrganizationBFO } from "../../src/bfo/index.ts";
+import {
+	type BFOResponse,
+	BFOResponseSchema,
+} from "../../src/bfo/schemas/index.ts";
 
 const EXPORTS_DIR = join(import.meta.dirname, "..", "..", "exports");
 
-const companyIds = (
-	pl
-		.readParquet(join(EXPORTS_DIR, "companies.parquet"))
-		.getColumn("id")
-		.toArray() as number[]
-).map((v) => Math.trunc(v));
+const ids = readOrgIds();
+const bfo = await fetchBfo(ids);
+const compressed = brotliCompressSync(JSON.stringify(bfo));
 
-const bfo: Record<string, unknown> = {};
+writeFileSync(join(EXPORTS_DIR, "bfo.json.br"), compressed);
 
-for (const id of companyIds) {
-	await sleep(200);
-	bfo[id] = await getOrganizationBFO(id);
+function readOrgIds() {
+	const file = readFileSync(join(EXPORTS_DIR, "companies.json.br"));
+	const data = JSON.parse(brotliDecompressSync(file).toString());
+	return data.map(({ id }: { id: number }) => id);
 }
 
-fs.outputFile(join(EXPORTS_DIR, "bfo.json"), JSON.stringify(bfo, null, 2));
+async function fetchBfo(ids: number[]) {
+	const result: Record<string, BFOResponse> = {};
+
+	for (const id of ids) {
+		await setTimeout(200);
+		const data = await getOrganizationBFO(id);
+		const { success, output, issues } = v.safeParse(BFOResponseSchema, data);
+
+		if (!success) {
+			console.error(`Failed to parse ${id}:\n\n${v.summarize(issues)}`);
+			process.exitCode = 1;
+			continue;
+		}
+
+		result[id] = output;
+	}
+
+	return result;
+}

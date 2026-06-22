@@ -1,68 +1,57 @@
+import { writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { exit } from "node:process";
-import pl from "nodejs-polars";
+import { env } from "node:process";
+import { setTimeout } from "node:timers/promises";
+import { brotliCompressSync } from "node:zlib";
+import { getMoexBondSecurities } from "@grind-t/moex";
+import { TInvestApi } from "@grind-t/t-invest";
+import { toRecord } from "@grind-t/toolkit/array";
 import * as v from "valibot";
-import { fs, sleep } from "zx";
 import { searchOrganizations } from "../../src/search/index.ts";
 import { SearchOutputSchema } from "../../src/search/schemas/output.ts";
 
 const EXPORTS_DIR = join(import.meta.dirname, "..", "..", "exports");
 
-const inns: string[] = await fs.readJSON(join(EXPORTS_DIR, "inns.json"));
+const inns = await fetchInns();
+const companies = await fetchCompanies(inns);
+const compressed = brotliCompressSync(JSON.stringify(companies));
 
-const rows = [];
+writeFileSync(join(EXPORTS_DIR, "companies.json.br"), compressed);
 
-for (const inn of inns) {
-	await sleep(200);
+async function fetchInns() {
+	const tInvestApi = new TInvestApi(env.T_INVEST_READONLY_TOKEN);
 
-	const result = await searchOrganizations({ inn, size: 1 });
-	const { success, output, issues } = v.safeParse(SearchOutputSchema, result);
+	const [bonds, moexSecurities] = await Promise.all([
+		tInvestApi.instruments.bonds({}).then((v) => v.instruments),
+		getMoexBondSecurities().then((v) => toRecord(v, (v) => v.isin)),
+	]);
 
-	if (!success) {
-		console.error(
-			`Error parsing result for INN ${inn}:\n\n${v.summarize(issues)}`,
-		);
-		exit(1);
-	}
+	return bonds.reduce((acc, v) => {
+		const moexSecurity = moexSecurities[v.isin];
+		const emitentInn = moexSecurity?.emitent_inn;
 
-	const org = output.content[0];
-
-	if (!org) continue;
-
-	rows.push({
-		id: org.id,
-		inn: org.inn,
-		shortName: org.shortName,
-		ogrn: org.ogrn,
-		index: org.index,
-		region: org.region,
-		district: org.district,
-		city: org.city,
-		settlement: org.settlement,
-		street: org.street,
-		house: org.house,
-		building: org.building,
-		office: org.office,
-		okved2: org.okved2,
-		okopf: org.okopf,
-		okato: org.okato,
-		okpo: org.okpo,
-		okfs: org.okfs,
-		statusCode: org.statusCode,
-		statusDate: org.statusDate,
-		bfo_period: org.bfo.period,
-		bfo_actualBfoDate: org.bfo.actualBfoDate,
-		bfo_gainSum: org.bfo.gainSum,
-		bfo_knd: org.bfo.knd,
-		bfo_hasAz: org.bfo.hasAz,
-		bfo_hasKs: org.bfo.hasKs,
-		bfo_actualCorrectionNumber: org.bfo.actualCorrectionNumber,
-		bfo_actualCorrectionDate: org.bfo.actualCorrectionDate,
-		bfo_isCb: org.bfo.isCb,
-		bfo_bfoPeriodTypes: org.bfo.bfoPeriodTypes,
-	});
+		emitentInn && acc.add(emitentInn);
+		return acc;
+	}, new Set<string>());
 }
 
-const df = pl.DataFrame(rows);
+async function fetchCompanies(inns: Iterable<string>) {
+	const companies = [];
 
-df.writeParquet(join(EXPORTS_DIR, "companies.parquet"));
+	for (const inn of inns) {
+		await setTimeout(200);
+		const result = await searchOrganizations({ inn, size: 1 });
+		const { success, output, issues } = v.safeParse(SearchOutputSchema, result);
+
+		if (!success) {
+			console.error(`Failed to parse ${inn}:\n\n${v.summarize(issues)}`);
+			process.exitCode = 1;
+			continue;
+		}
+
+		const org = output.content[0];
+		org && companies.push(org);
+	}
+
+	return companies;
+}

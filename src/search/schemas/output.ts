@@ -10,7 +10,7 @@ export const BfoSchema = v.strictObject({
 	period: v.pipe(v.string(), v.regex(/^\d{4}$/)),
 
 	/** Фактическая дата подачи БФО */
-	actualBfoDate: v.pipe(v.string(), v.isoDate()),
+	actualBfoDate: v.nullable(v.pipe(v.string(), v.isoDate())),
 
 	/** Сумма дохода */
 	gainSum: v.nullable(v.pipe(v.number(), v.minValue(0))),
@@ -25,10 +25,10 @@ export const BfoSchema = v.strictObject({
 	hasKs: v.boolean(),
 
 	/** Номер актуальной корректировки */
-	actualCorrectionNumber: PositiveIntegerSchema,
+	actualCorrectionNumber: v.nullable(PositiveIntegerSchema),
 
 	/** Дата актуальной корректировки */
-	actualCorrectionDate: v.pipe(v.string(), v.isoDate()),
+	actualCorrectionDate: v.nullable(v.pipe(v.string(), v.isoDate())),
 
 	/** Является ли центральным банком */
 	isCb: v.boolean(),

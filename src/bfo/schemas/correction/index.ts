@@ -37,7 +37,7 @@ export const CorrectionSchema = v.strictObject({
 		okpo: v.nullish(v.string()),
 	}),
 	balance: BalanceSchema,
-	financialResult: FinancialResultSchema,
+	financialResult: v.nullish(FinancialResultSchema),
 	capitalChange: v.nullish(CapitalChangeSchema),
 	fundsMovement: v.nullish(FundsMovementSchema),
 	targetedFundsUsing: v.nullish(TargetedFundsUsingSchema),
@@ -63,7 +63,7 @@ export const CorrectionSchema = v.strictObject({
 			id: v.number(),
 			inn: v.nullish(v.string()),
 			ogrn: v.nullish(v.string()),
-			name: v.string(),
+			name: v.nullish(v.string()),
 			isOrganization: v.boolean(),
 			fileMetadata: v.strictObject({
 				id: v.number(),

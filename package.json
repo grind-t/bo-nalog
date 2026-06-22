@@ -8,7 +8,7 @@
 	"exports": {
 		".": {
 			"import": "./dist/index.js",
-			"require": "./dist/index.umd.cjs",
+			"require": "./dist/index.cjs",
 			"types": "./dist/index.d.ts"
 		}
 	},
@@ -21,7 +21,6 @@
 		"test": "node --experimental-transform-types --experimental-test-module-mocks --test \"src/**/*.test.ts\"",
 		"check": "npm run typecheck && npm run lint && npm run test",
 		"build": "tsup",
-		"export:inns": "node --experimental-transform-types --env-file=.env ./scripts/export/inns.ts",
 		"export:companies": "node --experimental-transform-types --env-file=.env ./scripts/export/companies.ts",
 		"export:bfo": "node --experimental-transform-types --env-file=.env ./scripts/export/bfo.ts"
 	},
@@ -36,19 +35,16 @@
 	"homepage": "https://github.com/grind-t/bo-nalog#readme",
 	"devDependencies": {
 		"@biomejs/biome": "latest",
-		"@grind-t/moex": "latest",
+		"@grind-t/moex": "^1.0.8",
+		"@grind-t/t-invest": "^1.0.0",
 		"@microsoft/api-extractor": "latest",
 		"@swc/core": "latest",
-		"@types/fs-extra": "latest",
 		"@types/node": "latest",
-		"nodejs-polars": "latest",
-		"tinkoff-invest-api": "latest",
 		"tsup": "latest",
 		"typescript": "latest",
-		"valibot": "latest",
-		"zx": "latest"
+		"valibot": "^1.4.1"
 	},
 	"dependencies": {
-		"@grind-t/toolkit": "^2.3.0"
+		"@grind-t/toolkit": "^2.4.0"
 	}
 }
