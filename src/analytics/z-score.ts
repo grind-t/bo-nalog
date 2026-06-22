@@ -12,10 +12,10 @@ export function calcZScore(correction: Correction): number {
 	const workingCapital = (b.current1200 ?? 0) - (b.current1500 ?? 0);
 	const totalAssets = b.current1600 ?? 0;
 	const retainedEarnings = b.current1370 ?? 0;
-	const ebit = (f.current2300 ?? 0) + (f.current2330 ?? 0);
+	const ebit = (f?.current2300 ?? 0) + (f?.current2330 ?? 0);
 	const equity = b.current1300 ?? 0;
 	const totalLiabilities = (b.current1400 ?? 0) + (b.current1500 ?? 0);
-	const revenue = f.current2110 ?? 0;
+	const revenue = f?.current2110 ?? 0;
 
 	if (totalAssets === 0) return 0;
 

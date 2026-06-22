@@ -11,9 +11,9 @@ export function calcSaifullinKadykovScore(correction: Correction): number {
 	const currentAssets = b.current1200 ?? 0;
 	const currentLiabilities = b.current1500 ?? 0;
 	const totalAssets = b.current1600 ?? 0;
-	const revenue = f.current2110 ?? 0;
-	const netIncome = f.current2400 ?? 0;
-	const grossProfit = f.current2100 ?? 0;
+	const revenue = f?.current2110 ?? 0;
+	const netIncome = f?.current2400 ?? 0;
+	const grossProfit = f?.current2100 ?? 0;
 
 	if (totalAssets === 0 || currentAssets === 0 || equity === 0) return 0;
 
